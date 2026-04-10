@@ -36,7 +36,18 @@ const Contact = () => {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (!validateForm()) {
       e.preventDefault();
+      return;
     }
+
+    const form = e.currentTarget as HTMLFormElement & {
+      email: HTMLInputElement;
+      message: HTMLTextAreaElement;
+      inquiry_type: HTMLInputElement;
+    };
+
+    form.email.value = sanitizeInput(email);
+    form.message.value = sanitizeInput(message);
+    form.inquiry_type.value = selectedType ?? "";
   };
 
   return (
@@ -93,7 +104,7 @@ const Contact = () => {
               name="email"
               required
               value={email}
-              onChange={(e) => setEmail(sanitizeInput(e.target.value))}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               className="w-full px-4 py-2 rounded-sm border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground"
               maxLength={254}
@@ -112,7 +123,7 @@ const Contact = () => {
               name="message"
               required
               value={message}
-              onChange={(e) => setMessage(sanitizeInput(e.target.value))}
+              onChange={(e) => setMessage(e.target.value)}
               placeholder="Tell me about your leadership challenge..."
               rows={5}
               maxLength={5000}
