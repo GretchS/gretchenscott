@@ -46,29 +46,23 @@ const Contact = () => {
 
     setIsSubmitting(true);
 
-    const payload = {
-      email: sanitizeInput(email),
-      message: sanitizeInput(message),
-      inquiry_type: selectedType ?? "",
-    };
+    const formData = new FormData();
+    formData.append("email", sanitizeInput(email));
+    formData.append("message", sanitizeInput(message));
+    formData.append("inquiry_type", selectedType ?? "");
 
     try {
       const response = await fetch("https://formspree.io/f/xwvwdqqe", {
         method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        body: formData,
       });
-
-      const data = await response.json();
 
       if (response.ok) {
         window.location.href = "https://www.gretchenscott.com.au/";
         return;
       }
 
+      const data = await response.json().catch(() => ({}));
       setSubmitError(data.error || "Submission failed. Please try again.");
     } catch (error) {
       setSubmitError("Network error. Please check your connection and try again.");
