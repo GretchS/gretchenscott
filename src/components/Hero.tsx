@@ -17,16 +17,16 @@ const Hero = () => {
           </p>
           <div className="flex flex-wrap gap-4">
             <a
-              href="#leadership"
+              href="#contact"
               className="inline-flex items-center px-6 py-3 bg-foreground text-background text-sm font-medium rounded-sm hover:opacity-90 transition-opacity"
             >
-              Leadership Programs
+              Book Gretchen to speak or MC
             </a>
             <a
-              href="#speaking"
+              href="#contact"
               className="inline-flex items-center px-6 py-3 border border-foreground text-foreground text-sm font-medium rounded-sm hover:bg-foreground hover:text-background transition-colors"
             >
-              Book as Speaker
+              Discuss technical leadership programs
             </a>
           </div>
         </div>
