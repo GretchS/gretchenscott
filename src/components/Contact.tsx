@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { sanitizeInput, validateEmail, validateMessage } from "@/lib/utils";
 
 const ctas = [
@@ -13,6 +13,9 @@ const Contact = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [validationErrors, setValidationErrors] = useState<{email?: string; message?: string}>({});
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const validateForm = (): boolean => {
     const errors: {email?: string; message?: string} = {};
@@ -33,21 +36,45 @@ const Contact = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitError(null);
+
     if (!validateForm()) {
-      e.preventDefault();
       return;
     }
 
-    const form = e.currentTarget as HTMLFormElement & {
-      email: HTMLInputElement;
-      message: HTMLTextAreaElement;
-      inquiry_type: HTMLInputElement;
+    setIsSubmitting(true);
+
+    const payload = {
+      email: sanitizeInput(email),
+      message: sanitizeInput(message),
+      inquiry_type: selectedType ?? "",
     };
 
-    form.email.value = sanitizeInput(email);
-    form.message.value = sanitizeInput(message);
-    form.inquiry_type.value = selectedType ?? "";
+    try {
+      const response = await fetch("https://formspree.io/f/xwvwdqqe", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        window.location.href = "https://www.gretchenscott.com.au/";
+        return;
+      }
+
+      setSubmitError(data.error || "Submission failed. Please try again.");
+    } catch (error) {
+      setSubmitError("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -63,12 +90,9 @@ const Contact = () => {
         </div>
 
         <form
-          action="https://formspree.io/f/xwvwdqqe"
-          method="POST"
           onSubmit={handleFormSubmit}
           className="bg-muted/30 rounded-lg p-8 border border-border"
         >
-          <input type="hidden" name="_next" value="https://www.gretchenscott.com.au/" />
           <input type="hidden" name="inquiry_type" value={selectedType ?? ""} />
           <div className="mb-6">
             <label className="block text-sm font-medium mb-3 text-foreground">
@@ -115,31 +139,16 @@ const Contact = () => {
             )}
           </div>
 
-          <div className="mb-6">
-            <label htmlFor="message" className="block text-sm font-medium mb-2 text-foreground">
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              required
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Tell me about your leadership challenge..."
-              rows={5}
-              maxLength={5000}
-              className="w-full px-4 py-2 rounded-sm border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground"
-            />
-            {validationErrors.message && (
-              <p className="text-red-500 text-sm mt-1">{validationErrors.message}</p>
-            )}
-          </div>
+          {submitError && (
+            <p className="text-red-500 text-sm mb-4">{submitError}</p>
+          )}
 
           <button
             type="submit"
-            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium rounded-sm bg-foreground text-background hover:opacity-90 transition-all"
+            disabled={isSubmitting}
+            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium rounded-sm bg-foreground text-background hover:opacity-90 transition-all disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Send Message
+            {isSubmitting ? "Sending…" : "Send Message"}
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
