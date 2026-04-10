@@ -35,35 +35,13 @@ const Contact = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (!validateForm()) {
+      e.preventDefault();
       return;
     }
 
-    // Sanitize inputs before submission
-    const sanitizedEmail = sanitizeInput(email);
-    const sanitizedMessage = sanitizeInput(message);
-
-    // Update form data with sanitized values
-    const formData = new FormData();
-    formData.set("email", sanitizedEmail);
-    formData.set("message", sanitizedMessage);
-    formData.set("inquiry_type", selectedType || "");
-
-    // Create a synthetic event with sanitized data
-    const syntheticEvent = {
-      ...e,
-      target: {
-        ...e.target,
-        email: { value: sanitizedEmail },
-        message: { value: sanitizedMessage },
-        inquiry_type: { value: selectedType }
-      }
-    } as any;
-
-    await handleSubmit(syntheticEvent);
+    return handleSubmit(e);
   };
 
   if (state.succeeded) {
@@ -97,6 +75,7 @@ const Contact = () => {
         </div>
 
         <form onSubmit={handleFormSubmit} className="bg-muted/30 rounded-lg p-8 border border-border">
+          <input type="hidden" name="inquiry_type" value={selectedType ?? ""} />
           <div className="mb-6">
             <label className="block text-sm font-medium mb-3 text-foreground">
               What are you interested in?
@@ -117,7 +96,7 @@ const Contact = () => {
                 </button>
               ))}
             </div>
-            {validationErrors.message && !email && !message && (
+            {validationErrors.message && (
               <p className="text-red-500 text-sm mt-2">{validationErrors.message}</p>
             )}
           </div>
@@ -132,7 +111,7 @@ const Contact = () => {
               name="email"
               required
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(sanitizeInput(e.target.value))}
               placeholder="you@example.com"
               className="w-full px-4 py-2 rounded-sm border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground"
               maxLength={254}
@@ -152,14 +131,14 @@ const Contact = () => {
               name="message"
               required
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e) => setMessage(sanitizeInput(e.target.value))}
               placeholder="Tell me about your leadership challenge..."
               rows={5}
               maxLength={5000}
               className="w-full px-4 py-2 rounded-sm border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground"
             />
             <ValidationError field="message" errors={state.errors} />
-            {validationErrors.message && email && message && (
+            {validationErrors.message && (
               <p className="text-red-500 text-sm mt-1">{validationErrors.message}</p>
             )}
           </div>
