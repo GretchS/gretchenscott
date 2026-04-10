@@ -1,6 +1,7 @@
 import { ArrowRight, CheckCircle } from "lucide-react";
 import { useState } from "react";
 import { useForm, ValidationError } from "@formspree/react";
+import { sanitizeInput, validateEmail, validateMessage } from "@/lib/utils";
 
 const ctas = [
   { label: "Work with Gretchen on leadership programs", type: "leadership" },
@@ -10,7 +11,60 @@ const ctas = [
 
 const Contact = () => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [validationErrors, setValidationErrors] = useState<{email?: string; message?: string}>({});
   const [state, handleSubmit] = useForm("xwvwdqqe");
+
+  const validateForm = (): boolean => {
+    const errors: {email?: string; message?: string} = {};
+
+    if (!validateEmail(email)) {
+      errors.email = "Please enter a valid email address";
+    }
+
+    if (!validateMessage(message)) {
+      errors.message = "Please enter a message between 10-5000 characters with valid content";
+    }
+
+    if (!selectedType) {
+      errors.message = errors.message || "Please select what you're interested in";
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    // Sanitize inputs before submission
+    const sanitizedEmail = sanitizeInput(email);
+    const sanitizedMessage = sanitizeInput(message);
+
+    // Update form data with sanitized values
+    const formData = new FormData();
+    formData.set("email", sanitizedEmail);
+    formData.set("message", sanitizedMessage);
+    formData.set("inquiry_type", selectedType || "");
+
+    // Create a synthetic event with sanitized data
+    const syntheticEvent = {
+      ...e,
+      target: {
+        ...e.target,
+        email: { value: sanitizedEmail },
+        message: { value: sanitizedMessage },
+        inquiry_type: { value: selectedType }
+      }
+    } as any;
+
+    await handleSubmit(syntheticEvent);
+  };
 
   if (state.succeeded) {
     return (
@@ -42,7 +96,7 @@ const Contact = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-muted/30 rounded-lg p-8 border border-border">
+        <form onSubmit={handleFormSubmit} className="bg-muted/30 rounded-lg p-8 border border-border">
           <div className="mb-6">
             <label className="block text-sm font-medium mb-3 text-foreground">
               What are you interested in?
@@ -63,39 +117,9 @@ const Contact = () => {
                 </button>
               ))}
             </div>
-          </div>
-
-          <div className="mb-6">
-            <label className="block text-sm font-medium mb-2 text-foreground">
-              Your Email
-            </label>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              className="w-full px-4 py-2 rounded-sm border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground"
-            />
-          </div>
-
-          <div className="mb-6">
-            <label className="block text-sm font-medium mb-2 text-foreground">
-              Message
-            </label>
-            <textarea
-              required
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Tell me about your leadership challenge..."
-              rows={5}
-              cl  name="inquiry_type"
-                  value={cta.type}
-                >
-                  {cta.label}
-                </button>
-              ))}
-            </div>
+            {validationErrors.message && !email && !message && (
+              <p className="text-red-500 text-sm mt-2">{validationErrors.message}</p>
+            )}
           </div>
 
           <div className="mb-6">
@@ -107,10 +131,16 @@ const Contact = () => {
               type="email"
               name="email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               className="w-full px-4 py-2 rounded-sm border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground"
+              maxLength={254}
             />
             <ValidationError field="email" errors={state.errors} />
+            {validationErrors.email && (
+              <p className="text-red-500 text-sm mt-1">{validationErrors.email}</p>
+            )}
           </div>
 
           <div className="mb-6">
@@ -121,11 +151,17 @@ const Contact = () => {
               id="message"
               name="message"
               required
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
               placeholder="Tell me about your leadership challenge..."
               rows={5}
+              maxLength={5000}
               className="w-full px-4 py-2 rounded-sm border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground"
             />
             <ValidationError field="message" errors={state.errors} />
+            {validationErrors.message && email && message && (
+              <p className="text-red-500 text-sm mt-1">{validationErrors.message}</p>
+            )}
           </div>
 
           <button
@@ -134,4 +170,12 @@ const Contact = () => {
             className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium rounded-sm bg-foreground text-background hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             {state.submitting ? "Sending..." : "Send Message"}
-            {!state.submitt
+            {!state.submitting && <ArrowRight className="w-4 h-4" />}
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+};
+
+export default Contact;
