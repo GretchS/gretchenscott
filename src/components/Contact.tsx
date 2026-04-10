@@ -68,6 +68,7 @@ const Contact = () => {
           onSubmit={handleFormSubmit}
           className="bg-muted/30 rounded-lg p-8 border border-border"
         >
+          <input type="hidden" name="_next" value="https://www.gretchenscott.com.au/" />
           <input type="hidden" name="inquiry_type" value={selectedType ?? ""} />
           <div className="mb-6">
             <label className="block text-sm font-medium mb-3 text-foreground">
