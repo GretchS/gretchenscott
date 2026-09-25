@@ -2,19 +2,19 @@ import { Mic, BookOpen, Users } from "lucide-react";
 
 const offerings = [
   {
+    icon: Users,
+    title: "Conference MC",
+    desc: "Whole conferences, from the opening welcome to the final wrap‑up, multi‑track days included. She keeps the program on time, the speakers looked after and the room with her.",
+  },
+  {
     icon: Mic,
-    title: "Keynotes",
-    desc: "Technical leadership, influence without authority, and inclusive leadership in tech.",
+    title: "Panel moderation",
+    desc: "Panels that turn into real conversations. She does the research, draws out the quieter panellists and asks the follow‑up question the audience is thinking.",
   },
   {
     icon: BookOpen,
-    title: "Workshops",
-    desc: "Workshop‑style sessions for engineering leaders and high‑potential individual contributors.",
-  },
-  {
-    icon: Users,
-    title: "MC & Moderation",
-    desc: "MC and moderation services for multi‑track tech conferences and panels.",
+    title: "Keynotes & workshops",
+    desc: "Leading through a crisis, technical leadership, building communities and running inclusive events.",
   },
 ];
 
@@ -34,12 +34,12 @@ const Speaking = () => {
           <div>
             <p className="text-sm font-medium tracking-widest uppercase text-accent mb-4">Events</p>
             <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-foreground mb-6 leading-tight">
-              Public Speaking &amp; Conference MC
+              Speaker, MC &amp; Panel Moderator
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-8">
-              Gretchen is a sought‑after keynote speaker and conference MC across the Australian tech ecosystem.
-              She regularly speaks and moderates at major technology events, including DDD Melbourne, DDD Adelaide, ADAConf,
-              and other community‑driven conferences.
+              Gretchen has been running events since 2002, first as an event manager and now on stage.
+              She was MC for the whole of ADAConf 2025 (the Analysis, Design &amp; Architecture Conference), and has spoken
+              and moderated panels at DDD Melbourne, DDD Adelaide and other community conferences.
             </p>
             <div className="space-y-6">
               {offerings.map((item, i) => (
@@ -53,7 +53,7 @@ const Speaking = () => {
               ))}
             </div>
             <p className="mt-8 text-sm text-muted-foreground italic border-l-2 border-accent pl-4">
-              If you're looking for a speaker or MC who understands both the technical landscape and the human side of leadership, Gretchen can help bring your event to life.
+              After ADAConf 2025, an attendee told the organisers that Gretchen was the best MC they'd seen, apart from the ones on TV who are paid and have their scripts written for them.
             </p>
           </div>
         </div>

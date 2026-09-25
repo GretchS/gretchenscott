@@ -3,6 +3,7 @@ import { FormEvent, useState } from "react";
 import { sanitizeInput, validateEmail, validateMessage } from "@/lib/utils";
 
 const ctas = [
+  { label: "Break Glass crisis simulation", type: "crisis" },
   { label: "Work with Gretchen on leadership programs", type: "leadership" },
   { label: "Book Gretchen as a speaker or MC", type: "speaking" },
   { label: "Join our community programs", type: "community" },
@@ -76,10 +77,10 @@ const Contact = () => {
       <div className="max-w-3xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-foreground mb-4 leading-tight">
-            Let's Build the Future of Tech Leadership Together
+            Let's talk
           </h2>
           <p className="text-lg text-muted-foreground">
-            Empower your technical teams to reach new heights with leadership that inspires, includes, and drives innovation.
+            Whether you want to run a Break Glass simulation, develop your technical leaders, or book a speaker or MC, get in touch.
           </p>
         </div>
 
@@ -92,7 +93,7 @@ const Contact = () => {
             <label className="block text-sm font-medium mb-3 text-foreground">
               What are you interested in?
             </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {ctas.map((cta) => (
                 <button
                   key={cta.type}

@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import Crisis from "@/components/Crisis";
 import Leadership from "@/components/Leadership";
 import Speaking from "@/components/Speaking";
 import LogoStrip from "@/components/LogoStrip";
@@ -15,6 +16,7 @@ const Index = () => {
       <Navbar />
       <Hero />
       <LogoStrip />
+      <Crisis />
       <About />
       <Leadership />
       <Speaking />

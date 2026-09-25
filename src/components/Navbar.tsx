@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
+  { label: "Break Glass", href: "#crisis" },
   { label: "About", href: "#about" },
   { label: "Leadership", href: "#leadership" },
   { label: "Speaking", href: "#speaking" },
@@ -19,7 +20,7 @@ const Navbar = () => {
         <a href="#" className="font-serif text-xl font-semibold text-foreground tracking-tight">
           Gretchen Scott
         </a>
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -31,7 +32,7 @@ const Navbar = () => {
           ))}
         </div>
         <button
-          className="md:hidden text-foreground"
+          className="lg:hidden text-foreground"
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
@@ -39,7 +40,7 @@ const Navbar = () => {
         </button>
       </div>
       {open && (
-        <div className="md:hidden border-t border-border bg-background px-6 pb-6 pt-4 flex flex-col gap-4">
+        <div className="lg:hidden border-t border-border bg-background px-6 pb-6 pt-4 flex flex-col gap-4">
           {navLinks.map((link) => (
             <a
               key={link.href}

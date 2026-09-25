@@ -5,28 +5,30 @@ const Hero = () => {
         <div className="space-y-8">
           <div className="space-y-4">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-foreground leading-[1.1] tracking-tight">
-              Elevate Technical Leadership for the Modern Era
+              Leaders who are ready for the bad day
             </h1>
             <p className="text-lg font-serif italic text-accent">
-              Technical Leadership Strategist, Speaker &amp; MC
+              Technical Leadership Trainer, Speaker &amp; MC · CEO of Kaleida
             </p>
           </div>
           <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
-            In today's fast‑paced tech world, effective leadership is the engine of innovation and team performance.
-            Gretchen helps engineers and tech teams become influential leaders through strategy, coaching, and high‑impact speaking.
+            Every organisation has a bad day eventually. Sometimes it's technical: an outage, a breach, or a release that takes everything down.
+            Sometimes it isn't: a safety incident, a supplier that fails, or a story in the press.
+            Gretchen runs Break Glass, Kaleida's live crisis simulation, so leadership teams practise that day before it happens.
+            She also trains the everyday technical leadership that stops small problems from becoming big ones.
           </p>
           <div className="flex flex-wrap gap-4">
             <a
               href="#contact"
               className="inline-flex items-center px-6 py-3 bg-foreground text-background text-sm font-medium rounded-sm hover:opacity-90 transition-opacity"
             >
-              Book Gretchen to speak or MC
+              Book a Break Glass simulation
             </a>
             <a
               href="#contact"
               className="inline-flex items-center px-6 py-3 border border-foreground text-foreground text-sm font-medium rounded-sm hover:bg-foreground hover:text-background transition-colors"
             >
-              Discuss technical leadership programs
+              Book Gretchen to speak or MC
             </a>
           </div>
         </div>
@@ -34,7 +36,7 @@ const Hero = () => {
           <div className="aspect-[4/5] overflow-hidden rounded-sm">
             <img
               src="https://images.squarespace-cdn.com/content/v1/6641dbaa451ce3100f6fbcf9/c1368e6b-570c-45c3-a0ac-4e9228e99609/GScottProfile.jpg"
-              alt="Gretchen Scott - Technical Leadership Strategist"
+              alt="Gretchen Scott, technical leadership trainer and CEO of Kaleida"
               className="w-full h-full object-cover"
               loading="eager"
             />
