@@ -1,19 +1,22 @@
-import { TrendingUp, Users, Siren } from "lucide-react";
+import { TrendingUp, Users, Siren, ArrowUpRight } from "lucide-react";
 
 const focuses = [
   {
     icon: TrendingUp,
     title: "Launch into Leadership",
+    href: "https://www.kaleida.team/courses/launch-into-leadership/",
     text: "A cohort‑based course for people about to step into their first leadership role, through to experienced leaders.",
   },
   {
     icon: Users,
     title: "Leading tech teams",
+    href: "https://www.kaleida.team/",
     text: "Leadership habits that build inclusion, collaboration and psychological safety, so people speak up early.",
   },
   {
     icon: Siren,
     title: "Break Glass",
+    href: "https://www.kaleida.team/break-glass/",
     text: "A live crisis and business continuity drill for senior technical leaders, executive teams and boards.",
   },
 ];
@@ -35,11 +38,21 @@ const Leadership = () => {
         </div>
         <div className="grid md:grid-cols-3 gap-8">
           {focuses.map((item, i) => (
-            <div key={i} className="border border-border rounded-sm p-8 hover:border-accent transition-colors group">
+            <a
+              key={i}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block border border-border rounded-sm p-8 hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground transition-colors group"
+            >
               <item.icon className="w-6 h-6 text-accent mb-6 group-hover:scale-110 transition-transform" />
-              <p className="font-medium text-foreground mb-2">{item.title}</p>
+              <p className="font-medium text-foreground mb-2 flex items-center gap-1">
+                {item.title}
+                <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-accent transition-colors" aria-hidden="true" />
+                <span className="sr-only">(opens Kaleida website in a new tab)</span>
+              </p>
               <p className="text-muted-foreground leading-relaxed">{item.text}</p>
-            </div>
+            </a>
           ))}
         </div>
       </div>
