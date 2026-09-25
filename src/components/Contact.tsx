@@ -16,6 +16,7 @@ const Contact = () => {
   const [validationErrors, setValidationErrors] = useState<{email?: string; message?: string; type?: string}>({});
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSent, setIsSent] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const validateForm = (): boolean => {
@@ -51,20 +52,27 @@ const Contact = () => {
     formData.append("email", sanitizeInput(email));
     formData.append("message", sanitizeInput(message));
     formData.append("inquiry_type", selectedType ?? "");
+    formData.append("_subject", `Website enquiry (${selectedType ?? "general"}) from gretchenscott.com.au`);
 
     try {
       const response = await fetch("https://formspree.io/f/xwvwdqqe", {
         method: "POST",
         body: formData,
+        // Without this header Formspree treats the request as a plain HTML form post and can
+        // answer with a spam-check page instead of saving the submission.
+        headers: { Accept: "application/json" },
       });
 
       if (response.ok) {
-        window.location.href = "https://www.gretchenscott.com.au/";
+        setIsSent(true);
         return;
       }
 
       const data = await response.json().catch(() => ({}));
-      setSubmitError(data.error || "Submission failed. Please try again.");
+      const formspreeError = Array.isArray(data.errors)
+        ? data.errors.map((err: { message?: string }) => err.message).filter(Boolean).join(" ")
+        : data.error;
+      setSubmitError(formspreeError || "Submission failed. Please try again.");
     } catch (error) {
       setSubmitError("Network error. Please check your connection and try again.");
     } finally {
@@ -84,6 +92,12 @@ const Contact = () => {
           </p>
         </div>
 
+        {isSent ? (
+          <div className="bg-muted/30 rounded-lg p-8 border border-border text-center" role="status">
+            <p className="text-lg font-medium text-foreground mb-2">Thanks, your message has been sent.</p>
+            <p className="text-muted-foreground">Gretchen will get back to you soon.</p>
+          </div>
+        ) : (
         <form
           onSubmit={handleFormSubmit}
           className="bg-muted/30 rounded-lg p-8 border border-border"
@@ -167,6 +181,7 @@ const Contact = () => {
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
+        )}
       </div>
     </section>
   );
