@@ -29,8 +29,8 @@ const Leadership = () => {
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed mb-12">
             Through Kaleida, Gretchen works with organisations to develop leaders who can lead engineers and understand
-            the systems they're responsible for. Kaleida has run multi‑year private programs for leaders at Zendesk, Atlassian,
-            Culture Amp, Envato, Littlepay, Ferocia and others.
+            the systems they're responsible for. Kaleida has run leadership training for teams at Zendesk, Atlassian,
+            Culture Amp, Xero, MYOB, Littlepay, Ferocia and others.
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-8">

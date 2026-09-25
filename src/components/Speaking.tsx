@@ -39,7 +39,7 @@ const Speaking = () => {
             <p className="text-muted-foreground leading-relaxed mb-8">
               Gretchen has been running events since 2002, first as an event manager and now on stage.
               She was MC for the whole of ADAConf 2025 (the Analysis, Design &amp; Architecture Conference), and has spoken
-              and moderated panels at DDD Melbourne, DDD Adelaide and other community conferences.
+              and moderated panels at AI Engineer, NDC Melbourne, DDD Melbourne, DDD Adelaide and DDD Perth, and at Monash University.
             </p>
             <div className="space-y-6">
               {offerings.map((item, i) => (
