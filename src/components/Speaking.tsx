@@ -40,6 +40,7 @@ const Speaking = () => {
               Gretchen has been running events since 2002, first as an event manager and now on stage.
               She was MC for the whole of ADAConf 2025 (the Analysis, Design &amp; Architecture Conference), and has spoken
               and moderated panels at AI Engineer, NDC Melbourne, DDD Melbourne, DDD Adelaide and DDD Perth, and at Monash University.
+              On national TV, she has explained the RAMageddon memory chip shortage on ABC News Breakfast.
             </p>
             <div className="space-y-6">
               {offerings.map((item, i) => (

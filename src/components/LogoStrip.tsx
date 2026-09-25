@@ -16,8 +16,9 @@ const groups: { label: string; orgs: Org[] }[] = [
     ],
   },
   {
-    label: "Speaking, MC and panels at",
+    label: "Speaking, MC, panels and media",
     orgs: [
+      { name: "ABC News Breakfast" },
       { name: "Monash University" },
       { name: "ADAConf" },
       { name: "AI Engineer" },

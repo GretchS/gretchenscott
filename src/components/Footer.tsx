@@ -7,9 +7,6 @@ const Footer = () => {
           <a href="https://www.linkedin.com/in/gretchscott/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
             LinkedIn
           </a>
-          <a href="https://www.gretchenscott.com.au/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
-            Current Site
-          </a>
         </div>
       </div>
     </footer>

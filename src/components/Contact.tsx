@@ -13,24 +13,24 @@ const Contact = () => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [validationErrors, setValidationErrors] = useState<{email?: string; message?: string}>({});
+  const [validationErrors, setValidationErrors] = useState<{email?: string; message?: string; type?: string}>({});
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const validateForm = (): boolean => {
-    const errors: {email?: string; message?: string} = {};
+    const errors: {email?: string; message?: string; type?: string} = {};
 
     if (!validateEmail(email)) {
       errors.email = "Please enter a valid email address";
     }
 
     if (!validateMessage(message)) {
-      errors.message = "Please enter a message between 10-5000 characters with valid content";
+      errors.message = "Please write a message of at least 10 characters.";
     }
 
     if (!selectedType) {
-      errors.message = errors.message || "Please select what you're interested in";
+      errors.type = "Please choose what you're interested in.";
     }
 
     setValidationErrors(errors);
@@ -109,8 +109,8 @@ const Contact = () => {
                 </button>
               ))}
             </div>
-            {validationErrors.message && (
-              <p className="text-red-500 text-sm mt-2">{validationErrors.message}</p>
+            {validationErrors.type && (
+              <p className="text-red-500 text-sm mt-2">{validationErrors.type}</p>
             )}
           </div>
 
@@ -131,6 +131,26 @@ const Contact = () => {
             />
             {validationErrors.email && (
               <p className="text-red-500 text-sm mt-1">{validationErrors.email}</p>
+            )}
+          </div>
+
+          <div className="mb-6">
+            <label htmlFor="message" className="block text-sm font-medium mb-2 text-foreground">
+              Your Message
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows={6}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Tell Gretchen a bit about what you have in mind: your organisation, the event or program, and any dates."
+              className="w-full px-4 py-2 rounded-sm border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground resize-y"
+              maxLength={5000}
+            />
+            {validationErrors.message && (
+              <p className="text-red-500 text-sm mt-1">{validationErrors.message}</p>
             )}
           </div>
 
